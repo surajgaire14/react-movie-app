@@ -1,0 +1,68 @@
+html {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+*::before,
+::after {
+  box-sizing: inherit;
+}
+
+.div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.loginDiv {
+  width: 500px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loginDiv h2 {
+  padding: 10px ;
+  margin: auto 10px;
+}
+
+.loginDiv label {
+  display: block;
+  margin: 5px;
+  padding: 5px 10px;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.loginDiv input {
+    width: calc(100% - 40px);
+    padding: 5px 20px;
+    margin: 10px;
+}
+
+.loginDiv input:focus {
+    outline: none;
+}
+
+.loginDiv button {
+    width: calc(100% - 40px);
+    padding: 5px 20px;
+    border: none;
+    margin: 10px;
+    background-color: rgba(0, 0, 0, 0.294);
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.loginDiv p {
+  padding: 5px 10px;
+  font-size: 1.2rem;
+}
+
+.loginDiv p .link {
+  /* text-decoration: none; */
+  color: #000;
+}
