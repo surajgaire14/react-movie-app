@@ -24,6 +24,8 @@ const Signup = () => {
     resolver: yupResolver(schema),
   });
 
+  // const [username,setUsername] = useState("")
+
   const submit = (data) => {
     console.log(data);
     Axios.post("http://localhost:5000/signup", {

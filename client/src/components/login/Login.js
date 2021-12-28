@@ -21,7 +21,9 @@ const Login = () => {
       email: email,
       password: password,
     }).then((res) => {
-      
+        if(res.status === 200){
+          navigate("/")
+        }
     });
   };
 
