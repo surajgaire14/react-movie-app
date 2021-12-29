@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import classes from "./signup.module.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -24,17 +25,19 @@ const Signup = () => {
     resolver: yupResolver(schema),
   });
 
-  // const [username,setUsername] = useState("")
+  const navigate = useNavigate()
 
-  const submit = (data) => {
-    console.log(data);
+  const submit = (data,e) => {
+    e.target.reset()
     Axios.post("http://localhost:5000/signup", {
       username: data.username,
       email: data.email,
       password: data.password,
       cpassword: data.cpassword,
     }).then((res) => {
-      console.log(res);
+      if(res.status === 200){
+        navigate("/login")
+      }
     });
   };
 

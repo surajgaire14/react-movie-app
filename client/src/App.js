@@ -1,7 +1,9 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+// import { Axios } from "axios";
+import React, { useState, useEffect, Fragment } from "react";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/NavBar/Navbar";
+import Search from "./components/search/Search";
 import Movies from "./components/Movies/Movies";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/login/Login";
@@ -11,12 +13,23 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
 
+  // const {username,setUsername} = useState(null)
+
   const filterMovies = (searchKey) => {
     let tempMovies = movies.filter((movie) => {
       return movie.title.toLowerCase().includes(searchKey.toLowerCase());
     });
     setFilteredMovies(tempMovies);
   };
+
+  // Axios.defaults.withCredentials = true;
+
+  // useEffect(() => {
+  //   Axios.get("http://localhost:5000/login").then((response) => {
+  //     console.log(response)
+  //     // setUsername(response.data.user.username)
+  //   })
+  // }, [username])
 
   useEffect(() => {
     fetch(
@@ -31,22 +44,25 @@ function App() {
 
   return (
     <div>
-      <Navbar filterMovies={filterMovies} />
+      <Navbar />
       <Routes>
         <Route
           exact
           path="/"
           element={
-            <div className="movies">
-              {filteredMovies.map((movie) => (
-                <Movies
-                  title={movie["title"]}
-                  imagePath={movie["backdrop_path"]}
-                  cardText={movie.overview}
-                  key={movie.id}
-                />
-              ))}
-            </div>
+            <Fragment>
+              <Search filterMovies={filterMovies} />,
+              <div className="movies">
+                {filteredMovies.map((movie) => (
+                  <Movies
+                    title={movie["title"]}
+                    imagePath={movie["backdrop_path"]}
+                    cardText={movie.overview}
+                    key={movie.id}
+                  />
+                ))}
+              </div>
+            </Fragment>
           }
         ></Route>
         <Route exact path="/login" element={<Login />}></Route>

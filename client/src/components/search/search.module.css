@@ -1,0 +1,29 @@
+.searchDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto 0;
+    gap: 20px;
+    /* z-index: 1; */
+    /* width: 1000px; */
+}
+
+.searchDiv input {
+    padding: 5px 10px;
+    font-size: 1.2rem;
+}
+
+.searchDiv input:focus {
+    outline: none;
+}
+
+.searchDiv button {
+    padding: 10px 40px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 3px;
+    background-color: rgb(47, 109, 109);
+    border: none;
+    color: rgb(255, 255, 255);
+  }

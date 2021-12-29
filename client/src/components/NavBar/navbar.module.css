@@ -32,7 +32,7 @@
   text-align: center;
 }
 
-.NavbarDiv div:nth-child(2) {
+/* .NavbarDiv div:nth-child(2) {
   display: flex;
   gap: 20px;
 }
@@ -55,4 +55,4 @@
   background-color: rgb(47, 109, 109);
   border: none;
   color: rgb(255, 255, 255);
-}
+} */
