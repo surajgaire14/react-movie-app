@@ -4,6 +4,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// const jwt = require("jsonwebtoken")
+const {createTokens,validateToken}= require("./token/jwt")
+
+
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 app.use(
@@ -18,12 +22,12 @@ app.use(cookieParser());
 
 app.use(
   session({
-    key: "userID",
+    // key: "userID",
     resave: false,
     saveUninitialized: false,
     secret: "hugeSecretForMyMovieApp",
     cookie: {
-      expires: 60 * 60 * 24,
+      expires: 180000,
       // secure:true
     },
   })
@@ -67,17 +71,45 @@ app.post(
       password: hashedPassword,
       cpassword: hashedConfirmPassword,
     });
-    res.status(200).json({ msg: "user created successfully..." });
+    
+    return res.status(200).json({ msg: "user created successfully..." });
   }
 );
 
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
   if (req.session.user) {
     return res.status(200).json({ isLoggedIn: true, user: req.session.user });
   } else {
     return res.json({ isLoggedIn: false });
   }
 });
+
+// const verifyToken = (req,res,next) => {
+//   const token = req.headers["x-access-token"]
+//   console.log(req.headers)
+//   if(!token){
+//     return res.send("We need a token...")
+//   }else {
+//     jwt.verify(token,"mySecretKeyForMyMovieApp",(err,decoded) => {
+//       if (err)
+//      return res.json({auth:false,msg:"You failed to authenticate"})
+//       else{
+//         req.userId = decoded.id
+//         console.log(decoded.id)
+//         next()
+//       } 
+
+//     })
+//   }
+// }
+
+// app.get("/isUserAuth",verifyToken,(req,res) => {
+//   return res.send("You are authenticated")
+// })
+
+app.get("/",validateToken,(req,res) => {
+  res.json("Welcome to homePage,you are authenticated...")
+})
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -91,9 +123,16 @@ app.post("/login", async (req, res) => {
     if (!result) {
       return res.status(401).json({ msg: "wrong email or password" });
     }
-    req.session.user = user;
-    console.log(req.session.user);
-    return res.status(200).json({ msg: "Logged in successfully..." });
+
+    const accessToken = createTokens(user)
+
+    res.cookie("access-token",accessToken,{
+      maxAge:1000 * 60
+    })
+
+    //  res.send({auth:true,token:token,user:user})
+
+     return res.status(200).json({ msg: "Logged in successfully..." });
   });
 });
 

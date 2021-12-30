@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const [username,setUsername] = useState(null)
+  const [username,setUsername] = useState(null)
 
   // const navigate = useNavigate();
 
@@ -23,14 +23,20 @@ const Login = () => {
       // if (res.status === 200) {
       //   navigate("/");
       // }
-      console.log(res)
+      // console.log(res.data.auth)
+      if(res.data.auth){
+        
+      }
+
     });
   };
 
   useEffect(() => {
     Axios.get("http://localhost:5000/login").then((response) => {
-      console.log(response)
-      // setUsername(response.data.user.username)
+      // console.log(response)
+      if(response.data.isLoggedIn){
+        setUsername(response.data.user.username)
+      }
     })
   },[])
 

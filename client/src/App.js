@@ -51,7 +51,7 @@ function App() {
           path="/"
           element={
             <Fragment>
-              <Search filterMovies={filterMovies} />,
+              <Search filterMovies={filterMovies} />
               <div className="movies">
                 {filteredMovies.map((movie) => (
                   <Movies

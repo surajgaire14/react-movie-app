@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import classes from "./signup.module.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
