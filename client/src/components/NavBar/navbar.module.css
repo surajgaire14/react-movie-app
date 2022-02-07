@@ -14,7 +14,7 @@
   height: 70px;
 }
 
-.NavbarDiv div:nth-child(3) {
+/* .NavbarDiv div:nth-child(3) {
   display: flex;
   align-items: center;
   gap: 30px;
@@ -25,11 +25,48 @@
 .NavbarDiv div:nth-child(3) .link {
     color: #fff;
     text-decoration: none;
+} */
+
+.isAuthDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: inherit; */
+  gap: 70px;
+}
+
+.username {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  
+}
+
+.isNotAuthDiv {
+  display: flex;
+  gap: 30px;
+
 }
 
 .NavbarDiv h2 {
   padding-left: 20px;
   text-align: center;
+}
+
+.NavbarDiv .username {
+  color: #fff;
+}
+
+.link{
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: none;
+  padding-right: 20px;
+}
+
+.link:hover{
+  color: #fff;
 }
 
 /* .NavbarDiv div:nth-child(2) {

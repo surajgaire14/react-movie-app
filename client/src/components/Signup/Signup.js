@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Axios from "axios";
 import classes from "./signup.module.css";
 import { Link , useNavigate } from "react-router-dom";
@@ -28,12 +28,15 @@ const Signup = () => {
 
   const submit = (data,e) => {
     e.target.reset()
+    // console.log(data)
     Axios.post("http://localhost:5000/signup", {
       username: data.username,
       email: data.email,
       password: data.password,
-      cpassword: data.cpassword,
+      cpassword: data.cpassword
     }).then((res) => {
+      console.log(res)
+      // const {accessToken,refreshToken } = 
       if(res.status === 200){
         navigate("/login")
       }
@@ -53,7 +56,7 @@ const Signup = () => {
   //     }
   //   )
   // };
-
+  
   return (
     <div className={classes.signupDiv}>
       <form method="POST" onSubmit={handleSubmit(submit)}>

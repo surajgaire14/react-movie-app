@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    margin-top: 100px;
+    gap: 20px;
+    max-width: calc(100%-10%);
+    padding: 0 40px;
+}
+
+.hr{
+    margin: 10px 30px;
+    color: rgb(0, 0, 0);
+}

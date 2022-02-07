@@ -1,0 +1,47 @@
+.container {
+    max-width: calc(100%-20%);
+}
+
+.input {
+    margin: 10px;
+    margin-top: 30px;
+    margin-left: 50px;
+    width: calc(100% - 20%);
+    border: none;
+    border-bottom: 2px solid;
+    font-size: 1.1rem;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.btnDiv {
+    width: calc(100%-20%);
+    display: flex;
+    padding-right: 345px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.btnDiv .btn {
+    border: none;
+    text-transform: uppercase;
+    width: 100px;
+    height: 40px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: royalblue;
+}
+
+.btnDiv .disabled {
+    border: none;
+    text-transform: uppercase;
+    width: 100px;
+    height: 40px;
+    border-radius: 2px;
+    background-color: rgb(192, 192, 192);
+    color: #000;
+    cursor:not-allowed;
+}

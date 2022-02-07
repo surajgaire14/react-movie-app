@@ -11,13 +11,58 @@ html {
 }
 
 .movies {
-  /* margin-top: 100px; */
   margin:80px auto ;
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap:50px;
   max-width: 1200px;
+}
+
+.popularDiv {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.popularMovies {
+  margin:0px 20px ;
+  z-index: 1;
+
+  /* display: grid; */
+  /* display: flex;
+  flex-direction: row; */
+  /* max-width: 100%; */
+  /* grid-template-columns: repeat(10, 1fr); */
+  /* gap:10px; */
+  /* max-width: 1400px; */
+}
+
+.popular {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.link {
+  text-decoration: none;
+  color: gray;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: gray;
+}
+
+.hr {
+  border-bottom: 2px solid;
+  max-width: calc(100%-20%);
+  /* margin:0 auto; */
 }
 
 @media (max-width:768px) {
