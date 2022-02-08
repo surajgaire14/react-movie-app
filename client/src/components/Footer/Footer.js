@@ -8,6 +8,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
   return (
+    <div className={classes.bottom}>
     <div className={classes.footer}>
       <div className={classes.about}>
         <div className={classes.aboutSite}>
@@ -53,6 +54,7 @@ const Footer = () => {
         </p>
         <p>&copy; 2022</p>
       </div>
+    </div>
     </div>
   );
 };

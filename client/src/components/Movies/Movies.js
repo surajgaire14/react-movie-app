@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Card, Button } from "react-bootstrap";
-import { Link, Route } from "react-router-dom";
-import MovieDetails from "../MovieDetails/MovieDetails";
+import { useNavigate } from "react-router-dom";
 
 const Movies = (props) => {
   const [isHovered, setIshovered] = useState(false);
 
+  const navigate = useNavigate();
+
 
   const handleClick = () => {
-    // {movies.map((movie) => {
-    //   <Link to = {`/${movie.id}`}>{movie.title}</Link>
-    // })}
+    navigate(`/${props.id}`);
   };
 
   return (
@@ -32,12 +31,6 @@ const Movies = (props) => {
           See Details
         </Button>
       )}
-
-      {/* <Card.Body>
-        <Card.Title>{props.title}</Card.Title>
-        <Card.Text>{props.cardText}</Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body> */}
     </Card>
   );
 };

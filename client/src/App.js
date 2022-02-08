@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect, Fragment, useCallback } from "react";
+import React, { useState, Fragment } from "react";
 import { useNavigate, Route, Routes, Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import Navbar from "./components/NavBar/Navbar";
@@ -20,37 +20,23 @@ import Popular from "./components/Movies/Popular/Popular";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
   const [popular, setPopular] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [nowPlaying, setNowPlaying] = useState([]);
   const [upComing, setUpComing] = useState([]);
+  const [searchMovies, setSearchMovies] = useState([]);
   const [username, setUsername] = useState(null);
   const [auth, setAuth] = useState(null);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState("");
 
-  const filterMovies = (searchKey) => {
-    let tempMovies = movies.filter((movie) => {
-      return movie.title.toLowerCase().includes(searchKey.toLowerCase());
-    });
-    setFilteredMovies(tempMovies);
-  };
-
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // useEffect(() => {
   //   let token = localStorage.getItem("accesstoken");
   //   if (!token) {
   //     setAuth(false);
   //     navigate("/login");
-  //   } else {
-  //     // const foundUser = JSON.parse(token)
-  //     setAuth(true);
-  //     navigate("/");
   //   }
-  //   // if(token){
-  //   //   setAuth(true)
-  //   // }
   // }, []);
 
   const { error, isSuccess, isLoading } = useQuery(
@@ -63,15 +49,17 @@ function App() {
       const data1 = await res1.json();
       console.log(data1);
       setMovies(data1.results);
-      setFilteredMovies(data1.results);
+      // setFilteredMovies(data1.results);
+      setId(data1.results.id);
 
       // for popular movies
       const res2 = await fetch(
         `${process.env.REACT_APP_API_URL}popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
       const data2 = await res2.json();
-      console.log(data2);
+      console.log("popular", data2);
       setPopular(data2.results);
+      setId(data2.results.id);
 
       //for top rated movies
       const res3 = await fetch(
@@ -80,7 +68,7 @@ function App() {
       const data3 = await res3.json();
       console.log(data3);
       setTopRated(data3.results);
-
+      setId(data3.results.id);
       // for upcoming movies
       const res4 = await fetch(
         `${process.env.REACT_APP_API_URL}now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
@@ -88,7 +76,7 @@ function App() {
       const data4 = await res4.json();
       console.log(data4);
       setNowPlaying(data4.results);
-
+      // setId(data4.results.id)
       //for upcoming movies
       const res5 = await fetch(
         `${process.env.REACT_APP_API_URL}upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
@@ -96,6 +84,7 @@ function App() {
       const data5 = await res5.json();
       console.log(data5);
       setUpComing(data5.results);
+      // setId(data5.results.id)
     }
   );
 
@@ -110,7 +99,7 @@ function App() {
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 2,
+      items: 1,
       slidesToSlide: 2, // optional, default to 1.
     },
     mobile: {
@@ -124,184 +113,215 @@ function App() {
 
   if (error) return error.message;
 
-  const styles  = {
-    margin:'100px 20px',
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'flex-start',
-    gap:'10px'
-    // gridTemplateRows:'repeat(4,1fr)',
-    // maxWidth:'100%',
-    // gap:"10px"
-  }
-
   return (
     <div>
       <loginContext.Provider
-        value={{ username, setUsername, auth, setAuth, id, setId }}
+        value={{
+          username,
+          setUsername,
+          auth,
+          setAuth,
+          id,
+          setId,
+          setSearchMovies,
+        }}
       >
         <Navbar auth={auth} setAuth={setAuth} username={username} />
         <Routes>
           {/* <Route element={<ProtectedRoutes auth={auth} />}> */}
-          <Route
-            exact
-            path="/"
-            element={
-              <Fragment>
-                <Search filterMovies={filterMovies} />
-                {/* for popular movies */}
-                <div className="popularDiv">
-                  <div className="popular">
-                    <h2>Popular Movies</h2>
-                    <Link to="/popular" className="link">
-                      View More
-                    </Link>
+            <Route
+              exact
+              path="/"
+              element={
+                <Fragment>
+                  <Search searchMovies={setSearchMovies} />
+                  {/* for popular movies */}
+                  <div className="popularDiv">
+                    <div className="popular">
+                      <h2>Popular Movies</h2>
+                      <Link to="/popular" className="link">
+                        View More
+                      </Link>
+                    </div>
+                    <hr className="hr" />
+                    <div className="popularMovies">
+                      <Carousel responsive={responsive}>
+                        {popular.slice(0, 10).map((movie) => {
+                          return (
+                            <Movies
+                              imagePath={movie["backdrop_path"]}
+                              key={movie.id}
+                              id={movie.id}
+                              title={movie.title}
+                            />
+                          );
+                        })}
+                      </Carousel>
+                    </div>
                   </div>
-                  <hr className="hr" />
-                  <div className="popularMovies">
-                    <Carousel responsive={responsive}>
-                      {popular.slice(0, 10).map((movie) => {
-                        return (
-                          <Movies
-                            imagePath={movie["backdrop_path"]}
-                            key={movie.id}
-                          />
-                        );
-                      })}
-                    </Carousel>
-                  </div>
-                </div>
 
-                {/* top rated movies */}
-                <div className="popularDiv">
-                  <div className="popular">
-                    <h2>Top Rated Movies</h2>
-                    <Link to="/topRated" className="link">
-                      View More
-                    </Link>
+                  {/* top rated movies */}
+                  <div className="popularDiv">
+                    <div className="popular">
+                      <h2>Top Rated Movies</h2>
+                      <Link to="/topRated" className="link">
+                        View More
+                      </Link>
+                    </div>
+                    <hr className="hr" />
+                    <div className="popularMovies">
+                      <Carousel responsive={responsive}>
+                        {topRated.slice(0, 10).map((movie) => {
+                          return (
+                            <Movies
+                              imagePath={movie["backdrop_path"]}
+                              key={movie.id}
+                              id={movie.id}
+                            />
+                          );
+                        })}
+                      </Carousel>
+                    </div>
                   </div>
-                  <hr className="hr" />
-                  <div className="popularMovies">
-                    <Carousel responsive={responsive}>
-                      {topRated.slice(0, 10).map((movie) => {
-                        return (
-                          <Movies
-                            imagePath={movie["backdrop_path"]}
-                            key={movie.id}
-                          />
-                        );
-                      })}
-                    </Carousel>
-                  </div>
-                </div>
 
-                {/* for now playing movies */}
-                <div className="popularDiv">
-                  <div className="popular">
-                    <h2>Now playing Movies</h2>
-                    <Link to="/nowPlaying" className="link">
-                      View More
-                    </Link>
+                  {/* for now playing movies */}
+                  <div className="popularDiv">
+                    <div className="popular">
+                      <h2>Now playing Movies</h2>
+                      <Link to="/nowPlaying" className="link">
+                        View More
+                      </Link>
+                    </div>
+                    <hr className="hr" />
+                    <div className="popularMovies">
+                      <Carousel responsive={responsive}>
+                        {nowPlaying.slice(0, 10).map((movie) => {
+                          return (
+                            <Movies
+                              imagePath={movie["backdrop_path"]}
+                              key={movie.id}
+                              id={movie.id}
+                            />
+                          );
+                        })}
+                      </Carousel>
+                    </div>
                   </div>
-                  <hr className="hr" />
-                  <div className="popularMovies">
-                    <Carousel responsive={responsive}>
-                      {nowPlaying.slice(0, 10).map((movie) => {
-                        return (
-                          <Movies
-                            imagePath={movie["backdrop_path"]}
-                            key={movie.id}
-                          />
-                        );
-                      })}
-                    </Carousel>
-                  </div>
-                </div>
 
-                {/* for upcoming movies */}
-                <div className="popularDiv">
-                  <div className="popular">
-                    <h2>Upcoming Movies</h2>
-                    <Link to="/upcoming" className="link">
-                      View More
-                    </Link>
+                  {/* for upcoming movies */}
+                  <div className="popularDiv">
+                    <div className="popular">
+                      <h2>Upcoming Movies</h2>
+                      <Link to="/upcoming" className="link">
+                        View More
+                      </Link>
+                    </div>
+                    <hr className="hr" />
+                    <div className="popularMovies">
+                      <Carousel responsive={responsive}>
+                        {upComing.slice(0, 10).map((movie) => {
+                          return (
+                            <Movies
+                              imagePath={movie["backdrop_path"]}
+                              key={movie.id}
+                              id={movie.id}
+                            />
+                          );
+                        })}
+                      </Carousel>
+                    </div>
                   </div>
-                  <hr className="hr" />
-                  <div className="popularMovies">
-                    <Carousel responsive={responsive}>
-                      {upComing.slice(0, 10).map((movie) => {
-                        return (
-                          <Movies
-                            imagePath={movie["backdrop_path"]}
-                            key={movie.id}
-                          />
-                        );
-                      })}
-                    </Carousel>
+                </Fragment>
+              }
+            ></Route>
+            <Route exact path="/:id" element={<MovieDetails />}></Route>
+
+            {/* for view more links */}
+            <Route
+              exact
+              path="/popular"
+              element={popular.map((movie) => {
+                return (
+                  <div className="movies">
+                    <Popular
+                      imagePath={movie["backdrop_path"]}
+                      key={movie.id}
+                      title={movie.title}
+                      overview={movie.overview}
+                      id={movie.id}
+                    />
                   </div>
-                </div>
-              </Fragment>
-            }
-          ></Route>
-          <Route exact path="/:id" element={<MovieDetails />}></Route>
-          <Route
-            exact
-            path="/popular"
-            element={popular.map((movie) => {
-              return (
-                <div>
-                  <Movies
-                    imagePath={movie["backdrop_path"]}
-                    key={movie.id}
-                    title={movie.title}
-                    overview={movie.overview}
-                  />
-                </div>
-              );
-            })}
-          ></Route>
-          <Route
-            exact
-            path="/topRated"
-            element={topRated.map((movie) => {
-              return (
-                <Movies
-                  imagePath={movie["backdrop_path"]}
-                  key={movie.id}
-                  title={movie.title}
-                  overview={movie.overview}
-                />
-              );
-            })}
-          ></Route>
-          <Route
-            exact
-            path="/upcoming"
-            element={upComing.map((movie) => {
-              return (
-                <Movies
-                  imagePath={movie["backdrop_path"]}
-                  key={movie.id}
-                  title={movie.title}
-                  overview={movie.overview}
-                />
-              );
-            })}
-          ></Route>
-          <Route
-            exact
-            path="/nowPlaying"
-            element={nowPlaying.map((movie) => {
-              return (
-                <Movies
-                  imagePath={movie["backdrop_path"]}
-                  key={movie.id}
-                  title={movie.title}
-                  overview={movie.overview}
-                />
-              );
-            })}
-          ></Route>
+                );
+              })}
+            ></Route>
+            <Route
+              exact
+              path="/topRated"
+              element={topRated.map((movie) => {
+                return (
+                  <div className="movies">
+                    <Popular
+                      imagePath={movie["backdrop_path"]}
+                      key={movie.id}
+                      title={movie.title}
+                      overview={movie.overview}
+                      id={movie.id}
+                    />
+                  </div>
+                );
+              })}
+            ></Route>
+            <Route
+              exact
+              path="/upcoming"
+              element={upComing.map((movie) => {
+                return (
+                  <div className="movies">
+                    <Popular
+                      imagePath={movie["backdrop_path"]}
+                      key={movie.id}
+                      title={movie.title}
+                      overview={movie.overview}
+                      id={movie.id}
+                    />
+                  </div>
+                );
+              })}
+            ></Route>
+            <Route
+              exact
+              path="/nowPlaying"
+              element={nowPlaying.map((movie) => {
+                return (
+                  <div className="movies">
+                    <Popular
+                      imagePath={movie["backdrop_path"]}
+                      key={movie.id}
+                      title={movie.title}
+                      overview={movie.overview}
+                      id={movie.id}
+                    />
+                  </div>
+                );
+              })}
+            ></Route>
+            <Route
+              exact
+              path="/search"
+              element={searchMovies.map((movie) => {
+                return (
+                  <div className="movies">
+                    <Popular
+                      imagePath={movie["backdrop_path"]}
+                      key={movie.id}
+                      title={movie.title}
+                      overview={movie.overview}
+                      id={movie.id}
+                    />
+                  </div>
+                );
+              })}
+            ></Route>
           {/* </Route> */}
 
           <>

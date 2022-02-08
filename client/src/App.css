@@ -11,12 +11,18 @@ html {
 }
 
 .movies {
-  margin:80px auto ;
+  /* margin:80px 0 ;
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap:50px;
+  max-width: 1200px; */
+  margin-top: 100px;
+  display: inline-grid;
+  padding:0 20px;
   max-width: 1200px;
+  /* gap: 20px; */
+  /* grid-template-columns: repeat(2,0.5fr); */
 }
 
 .popularDiv {

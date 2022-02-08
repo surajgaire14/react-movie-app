@@ -22,9 +22,9 @@ const Navbar = (props) => {
       <div>
         {props.auth ?
         <div className={classes.isAuthDiv}>
-          {/* <div className={classes.username}> 
-           <p>welcome, { props.username}</p>
-         </div>   */}
+          <div className={classes.username}> 
+           <p> { props.username}</p>
+         </div>  
          <Link className={classes.link} to="/" onClick={handleLogout}>Logout</Link>
         </div>
         :

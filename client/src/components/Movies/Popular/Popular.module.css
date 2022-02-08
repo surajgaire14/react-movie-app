@@ -1,16 +1,26 @@
 /* .popular {
-    margin-top: 100px; 
-    display: grid;
-    max-width: 100px;
-    grid-template-columns: repeat(4,1fr);
-}
+    display: inline-grid;
+    /* grid-template-columns:repeat(3,1fr);
+    max-width: 1200px; */
+
+/* }  */
+
 .popularDiv {
-    display: grid;
-    max-width: 100px;
-    grid-template-columns: repeat(4,1fr);
-    margin: auto;
-    z-index: 1;
-} */
+    /* display: -ms-inline-grid; */
+    /* margin: 80px 20px; */
+    position: relative;
+    max-width: 250px;
+}
+
+.popularDiv img {
+    width: 250px;
+}
+
+.btn {
+    position: absolute;
+    top: 150px;
+    left: 50px;
+}
 
     
 

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback, Fragment } from "react";
+import React, { useState, useEffect, useCallback, Fragment, useContext } from "react";
 import { useParams } from "react-router-dom";
 import classes from "./MovieDetails.module.css";
-import { Link } from "react-router-dom";
 import Reviews from "../Reviews/Reviews";
 
-const MovieDetails = () => {
+const MovieDetails = (props) => {
   const [movieDetails, SetMovieDetais] = useState("");
   const [image, setImage] = useState("");
+  // const [movieId,setId] = useState("")
   const [genres, setGenres] = useState({
     genre1: "",
     genre2: "",
@@ -15,6 +15,9 @@ const MovieDetails = () => {
   const [releaseDate, setReleaseDate] = useState("");
   const [overview, setOverview] = useState("");
   const { id } = useParams();
+  console.log(id)
+
+  // const {id } = useContext(loginContext)
 
   const fetchMovieDetails = useCallback(() => {
     fetch(
@@ -31,8 +34,11 @@ const MovieDetails = () => {
         });
         setReleaseDate(data["release_date"]);
         setOverview(data.overview);
+        // setId(data.id)
       });
-  }, [id]);
+  }, []);
+
+  // console.log(movieId)
 
   useEffect(() => {
     fetchMovieDetails();
@@ -52,10 +58,10 @@ const MovieDetails = () => {
         <h3>{movieDetails.title}</h3>
         <p>
           <em>Genres:</em>
-          {genres.genre1}, {genres.genre2}, {genres.genre3}
+         {genres ? `${genres.genre1}, ${genres.genre2}, ${genres.genre3}` : null }
         </p>
         <p>Status:{movieDetails.status}</p>
-        <p>Release Date:{releaseDate}</p>
+        <p>Release Date:{releaseDate ? releaseDate : "Not available"}</p>
         <p>Average Vote:{movieDetails["vote_average"]}</p>
         <p>
           Runtime:{parseInt(movieDetails.runtime / 60)} hr{" "}
