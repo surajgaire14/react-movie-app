@@ -4,7 +4,7 @@ const handleLogout = (req, res) => {
       httpOnly: true 
     });
   
-    return res.status(200).json({msg:"Successfully deleted cookie..."})
+    return res.status(204).json({msg:"Successfully deleted cookie..."})
   };
 
   module.exports = handleLogout
