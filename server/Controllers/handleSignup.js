@@ -1,6 +1,7 @@
 const {User} = require("../models/Users")
 const bcrypt = require("bcrypt")
-// const {validationResult} = require("express-validator")
+const {schema } = require("../validation/validateUser")
+const joi = require("joi")
 
 const handleSignup = async (req,res) => {
     const salt = await bcrypt.genSalt(10);
@@ -18,6 +19,10 @@ const handleSignup = async (req,res) => {
       return res.status(401).json({ message: "Email already registered..." });
     }
 
+    // const result = await schema.validateAsync(req.body)
+    // console.log(result)
+
+    // const result = 
     // const errors = validationResult(req);
     // console.log(errors);
     // if (!errors.isEmpty()) {
