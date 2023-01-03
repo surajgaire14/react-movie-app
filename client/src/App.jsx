@@ -44,7 +44,7 @@ function App() {
     async () => {
       //for movies
       const res1 = await fetch(
-        `${process.env.REACT_APP_API_KEY_DISCOVER_MOVIES}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
+        `${import.meta.env.VITE_APP_API_KEY_DISCOVER_MOVIES}?api_key=${import.meta.env.VITE_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
       );
       const data1 = await res1.json();
       console.log(data1);
